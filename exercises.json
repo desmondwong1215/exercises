@@ -100,6 +100,22 @@
     }
   },
   {
+    "exercise_name": "sensors-revert",
+    "tags": [
+      "git-reset"
+    ],
+    "requires_git": true,
+    "requires_github": true,
+    "base_files": {},
+    "exercise_repo": {
+      "repo_type": "remote",
+      "repo_name": "sensors",
+      "repo_title": "gm-sensors",
+      "create_fork": false,
+      "init": null
+    }
+  },
+  {
     "exercise_name": "conflict-mediator",
     "tags": [
       "git-merge",
@@ -183,6 +199,24 @@
     }
   },
   {
+    "exercise_name": "sensors-diff",
+    "tags": [
+      "git-diff"
+    ],
+    "requires_git": true,
+    "requires_github": true,
+    "base_files": {
+      "answers.txt": "answers.txt"
+    },
+    "exercise_repo": {
+      "repo_type": "remote",
+      "repo_name": "sensors",
+      "repo_title": "gm-sensors",
+      "create_fork": false,
+      "init": null
+    }
+  },
+  {
     "exercise_name": "clone-repo",
     "tags": [
       "git-clone",
@@ -197,6 +231,112 @@
       "repo_title": null,
       "create_fork": null,
       "init": null
+    }
+  },
+  {
+    "exercise_name": "branch-compare",
+    "tags": [
+      "git-branch",
+      "git-diff"
+    ],
+    "requires_git": true,
+    "requires_github": false,
+    "base_files": {
+      "answers.txt": "answers.txt"
+    },
+    "exercise_repo": {
+      "repo_type": "local",
+      "repo_name": "data-streams",
+      "repo_title": null,
+      "create_fork": null,
+      "init": true
+    }
+  },
+  {
+    "exercise_name": "merge-squash",
+    "tags": [
+      "git-branch",
+      "git-merge",
+      "git-reset"
+    ],
+    "requires_git": true,
+    "requires_github": false,
+    "base_files": {},
+    "exercise_repo": {
+      "repo_type": "local",
+      "repo_name": "friends-cast",
+      "repo_title": null,
+      "create_fork": null,
+      "init": true
+    }
+  },
+  {
+    "exercise_name": "tags-push",
+    "tags": [
+      "git-tag"
+    ],
+    "requires_git": true,
+    "requires_github": true,
+    "base_files": {},
+    "exercise_repo": {
+      "repo_type": "remote",
+      "repo_name": "duty-roster",
+      "repo_title": "gm-duty-roster",
+      "create_fork": true,
+      "init": null
+    }
+  },
+  {
+    "exercise_name": "ff-undo",
+    "tags": [
+      "git-branch",
+      "git-merge",
+      "git-reset"
+    ],
+    "requires_git": true,
+    "requires_github": false,
+    "base_files": {},
+    "exercise_repo": {
+      "repo_type": "local",
+      "repo_name": "play-characters",
+      "repo_title": null,
+      "create_fork": null,
+      "init": true
+    }
+  },
+  {
+    "exercise_name": "sensors-checkout",
+    "tags": [
+      "git-checkout"
+    ],
+    "requires_git": true,
+    "requires_github": true,
+    "base_files": {
+      "answers.txt": "answers.txt"
+    },
+    "exercise_repo": {
+      "repo_type": "remote",
+      "repo_name": "sensors",
+      "repo_title": "gm-sensors",
+      "create_fork": false,
+      "init": null
+    }
+  },
+  {
+    "exercise_name": "branch-forward",
+    "tags": [
+      "git-branch",
+      "git-merge"
+    ],
+    "requires_git": true,
+    "requires_github": false,
+    "base_files": {},
+    "exercise_repo": {
+      "repo_type": "local",
+      "repo_name": "love-story",
+      "repo_title": null,
+      "create_fork": null,
+      "init": true
     }
   },
   {
@@ -252,6 +392,38 @@
     }
   },
   {
+    "exercise_name": "sensors-reset",
+    "tags": [
+      "git-reset"
+    ],
+    "requires_git": true,
+    "requires_github": true,
+    "base_files": {},
+    "exercise_repo": {
+      "repo_type": "remote",
+      "repo_name": "sensors",
+      "repo_title": "gm-sensors",
+      "create_fork": false,
+      "init": null
+    }
+  },
+  {
+    "exercise_name": "tags-update",
+    "tags": [
+      "git-tag"
+    ],
+    "requires_git": true,
+    "requires_github": true,
+    "base_files": {},
+    "exercise_repo": {
+      "repo_type": "remote",
+      "repo_name": "duty-roster",
+      "repo_title": "gm-duty-roster",
+      "create_fork": false,
+      "init": null
+    }
+  },
+  {
     "exercise_name": "mix-messy-graph",
     "tags": [
       "git-branch",
@@ -269,6 +441,24 @@
     }
   },
   {
+    "exercise_name": "merge-undo",
+    "tags": [
+      "git-branch",
+      "git-merge",
+      "git-reset"
+    ],
+    "requires_git": true,
+    "requires_github": false,
+    "base_files": {},
+    "exercise_repo": {
+      "repo_type": "local",
+      "repo_name": "play-characters",
+      "repo_title": null,
+      "create_fork": null,
+      "init": true
+    }
+  },
+  {
     "exercise_name": "remote-control",
     "tags": [],
     "requires_git": true,
@@ -280,6 +470,22 @@
       "init": true,
       "create_fork": null,
       "repo_title": null
+    }
+  },
+  {
+    "exercise_name": "branch-previous",
+    "tags": [
+      "git-branch"
+    ],
+    "requires_git": true,
+    "requires_github": false,
+    "base_files": {},
+    "exercise_repo": {
+      "repo_type": "local",
+      "repo_name": "horror-story",
+      "repo_title": null,
+      "create_fork": null,
+      "init": true
     }
   },
   {
@@ -333,6 +539,41 @@
     }
   },
   {
+    "exercise_name": "view-commits",
+    "tags": [
+      "git-diff",
+      "git-show"
+    ],
+    "requires_git": true,
+    "requires_github": true,
+    "base_files": {
+      "answers.txt": "answers.txt"
+    },
+    "exercise_repo": {
+      "repo_type": "remote",
+      "repo_name": "duty-roster",
+      "repo_title": "gm-duty-roster",
+      "create_fork": false,
+      "init": true
+    }
+  },
+  {
+    "exercise_name": "tags-add",
+    "tags": [
+      "git-tag"
+    ],
+    "requires_git": true,
+    "requires_github": true,
+    "base_files": {},
+    "exercise_repo": {
+      "repo_type": "remote",
+      "repo_name": "duty-roster",
+      "create_fork": false,
+      "repo_title": "gm-duty-roster",
+      "init": false
+    }
+  },
+  {
     "exercise_name": "staging-intervention",
     "tags": [
       "git-restore"
@@ -346,6 +587,22 @@
       "repo_title": null,
       "create_fork": null,
       "init": true
+    }
+  },
+  {
+    "exercise_name": "undo-init",
+    "tags": [
+      "git-init"
+    ],
+    "requires_git": true,
+    "requires_github": false,
+    "base_files": {},
+    "exercise_repo": {
+      "repo_type": "local-ignore",
+      "repo_name": "my-notes",
+      "repo_title": null,
+      "create_fork": null,
+      "init": false
     }
   },
   {
