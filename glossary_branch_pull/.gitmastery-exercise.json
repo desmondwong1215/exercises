@@ -11,6 +11,6 @@
     "repo_name": "funny-glossary",
     "repo_title": "samplerepo-funny-glossary",
     "create_fork": true,
-    "init": false
+    "init": true
   }
 }
