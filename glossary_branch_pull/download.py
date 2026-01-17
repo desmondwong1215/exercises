@@ -32,7 +32,7 @@ def setup(verbose: bool = False):
 
     # os.chdir(LOCAL_DIR)
     
-    add_remote("origin", f"https://github.com/{full_repo_name}")
+    add_remote("origin", f"https://github.com/{full_repo_name}", verbose)
     run_command(["git", "fetch", "origin"], verbose)
     checkout("main", False, verbose)
 
