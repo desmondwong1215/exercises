@@ -7,7 +7,7 @@
   "requires_github": true,
   "base_files": {},
   "exercise_repo": {
-    "repo_type": "local",
+    "repo_type": "remote",
     "repo_name": "funny-glossary",
     "repo_title": "samplerepo-funny-glossary",
     "create_fork": true,

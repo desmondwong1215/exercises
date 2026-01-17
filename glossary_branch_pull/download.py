@@ -32,9 +32,9 @@ def setup(verbose: bool = False):
 
     # os.chdir(LOCAL_DIR)
     
-    add_remote("origin", f"https://github.com/{full_repo_name}", verbose)
-    run_command(["git", "fetch", "origin"], verbose)
-    checkout("main", False, verbose)
+    # add_remote("origin", f"https://github.com/{full_repo_name}", verbose)
+    # run_command(["git", "fetch", "origin"], verbose)
+    # checkout("main", False, verbose)
 
     run_command(["git", "branch", "-dr", "origin/VWX"], verbose)
 
@@ -46,4 +46,3 @@ def setup(verbose: bool = False):
     create_or_update_file("e.txt", "documentation: Evidence that someone once cared.\n")
     add(["e.txt"], verbose)
     commit("Add 'documentation'", verbose)
-
