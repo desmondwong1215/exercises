@@ -20,17 +20,17 @@ __resources__ = {}
 
 
 def setup(verbose: bool = False):
-    username = get_github_username(verbose)
-    full_repo_name = f"{username}/{FORK_NAME}"
+    # username = get_github_username(verbose)
+    # full_repo_name = f"{username}/{FORK_NAME}"
 
-    if has_repo(full_repo_name, True, verbose):
-        delete_repo(full_repo_name, verbose)
+    # if has_repo(full_repo_name, True, verbose):
+    #     delete_repo(full_repo_name, verbose)
 
-    fork_repo(TARGET_REPO, FORK_NAME, verbose, False)
-    print("Waiting for GitHub to process the fork...")
-    clone_repo_with_git(f"https://github.com/{full_repo_name}", verbose, LOCAL_DIR)
+    # fork_repo(TARGET_REPO, FORK_NAME, verbose, False)
+    # print("Waiting for GitHub to process the fork...")
+    # clone_repo_with_git(f"https://github.com/{full_repo_name}", verbose, LOCAL_DIR)
 
-    os.chdir(LOCAL_DIR)
+    # os.chdir(LOCAL_DIR)
 
     run_command(["git", "branch", "-dr", "origin/VWX"], verbose)
 
