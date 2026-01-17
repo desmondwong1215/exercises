@@ -28,7 +28,6 @@ def setup(verbose: bool = False):
 
     fork_repo(TARGET_REPO, FORK_NAME, verbose, False)
     print("Waiting for GitHub to process the fork...")
-    time.sleep(5)  # Ensure GitHub has processed the fork before cloning
     clone_repo_with_git(f"https://github.com/{full_repo_name}", verbose, LOCAL_DIR)
 
     os.chdir(LOCAL_DIR)
