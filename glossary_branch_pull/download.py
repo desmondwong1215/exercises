@@ -32,9 +32,10 @@ def setup(verbose: bool = False):
 
     # os.chdir(LOCAL_DIR)
     
-    # add_remote("origin", f"https://github.com/{full_repo_name}", verbose)
-    # run_command(["git", "fetch", "origin"], verbose)
-    # checkout("main", False, verbose)
+    add_remote("origin", f"https://github.com/{full_repo_name}", verbose)
+    run_command(["git", "fetch", "origin"], verbose)
+    checkout("main", False, verbose)
+    run_command(["git", "remote", "set-head", "origin", "--auto"], verbose)
 
     run_command(["git", "branch", "-dr", "origin/VWX"], verbose)
 
