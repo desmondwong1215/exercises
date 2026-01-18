@@ -8,9 +8,9 @@
   "base_files": {},
   "exercise_repo": {
     "repo_type": "local",
-    "repo_name": "funny-glossary",
-    "repo_title": "samplerepo-funny-glossary",
-    "create_fork": true,
+    "repo_name": null,
+    "repo_title": null,
+    "create_fork": null,
     "init": true
   }
 }
