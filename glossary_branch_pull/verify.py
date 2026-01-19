@@ -7,42 +7,66 @@ from git_autograder import (
 BRANCH_NOT_CREATED = "The local {branch} branch is not created."
 BRANCH_NOT_TRACKING = "The local {branch} branch does not track origin/{branch}."
 BRANCH_MISSING = "The local {branch} branch does not exist."
+COMMIT_MISSING = "New commit in the remote {branch} branch is not pulled to the local {branch} branch."
 
 
 def verify(exercise: GitAutograderExercise) -> GitAutograderOutput:
-    repo = exercise.repo.repo  # git.Repo object
-    errors = []
+    repo = exercise.repo 
+    comments = []
 
     # Step 1: Check local STU branch and tracking
-    stu_branch = repo.heads.STU if hasattr(repo.heads, 'STU') else None
-    if not stu_branch:
-        errors.append(BRANCH_NOT_CREATED.format(branch="STU"))
+    if not repo.branches.has_branch("STU"):
+        comments.append(BRANCH_NOT_CREATED.format(branch="STU"))
     else:
+        stu_branch = repo.branches.branch("STU").branch
         tracking = stu_branch.tracking_branch()
         if not tracking or tracking.name != 'origin/STU':
-            errors.append(BRANCH_NOT_TRACKING.format(branch="STU"))
+            comments.append(BRANCH_NOT_TRACKING.format(branch="STU"))
 
     # Step 2: Check local VWX branch and tracking
-    vwx_branch = repo.heads.VWX if hasattr(repo.heads, 'VWX') else None
-    if not vwx_branch:
-        errors.append(BRANCH_NOT_CREATED.format(branch="VWX"))
+    if not repo.branches.has_branch("VWX"):
+        comments.append(BRANCH_NOT_CREATED.format(branch="VWX"))
     else:
+        vwx_branch = repo.branches.branch("VWX").branch
         tracking = vwx_branch.tracking_branch()
         if not tracking or tracking.name != 'origin/VWX':
-            errors.append(BRANCH_NOT_TRACKING.format(branch="VWX"))
+            comments.append(BRANCH_NOT_TRACKING.format(branch="VWX"))
             
-    # Step 3: Check local ABC branch exists
-    abc_branch = repo.heads.ABC if hasattr(repo.heads, 'ABC') else None
-    if not abc_branch:
-        errors.append(BRANCH_NOT_CREATED.format(branch="ABC"))
-        
-    # Step 4: Check local DEF branch exists
-    def_branch = repo.heads.DEF if hasattr(repo.heads, 'DEF') else None
-    if not def_branch:
-        errors.append(BRANCH_NOT_CREATED.format(branch="DEF"))
-        
-    if errors:
-        return exercise.to_output(errors, GitAutograderStatus.UNSUCCESSFUL)
+    # Step 3: Check local ABC branch exists and is up-to-date with origin/ABC
+    if not repo.branches.has_branch("ABC"):
+        comments.append(BRANCH_MISSING.format(branch="ABC"))
+    else:
+        # Check if origin/ABC exists
+        abc_branch = repo.branches.branch("ABC").branch
+        remote_abc = abc_branch.tracking_branch()
+        if not remote_abc:
+            comments.append(BRANCH_NOT_TRACKING.format(branch="ABC"))
+        else:
+            local_commits = set(commit.hexsha for commit in repo.branches.branch("ABC").commits)
+            remote_commit_hexsha = remote_abc.commit.hexsha
+            if remote_commit_hexsha not in local_commits:
+                comments.append(COMMIT_MISSING.format(branch="ABC"))
+
+    # Step 4: Check local DEF branch exists, is up-to-date, and has a merge commit
+    if not repo.branches.has_branch("DEF"):
+        comments.append(BRANCH_MISSING.format(branch="DEF"))
+    else:
+        def_branch = repo.branches.branch("DEF").branch
+        remote_def = def_branch.tracking_branch()
+        if not remote_def:
+            comments.append(BRANCH_NOT_TRACKING.format(branch="DEF"))
+        else:
+            local_commits = set(commit.hexsha for commit in repo.branches.branch("DEF").commits)
+            remote_commit_hexsha = remote_def.commit.hexsha
+            if remote_commit_hexsha not in local_commits:
+                comments.append(COMMIT_MISSING.format(branch="DEF"))
+            # Check for merge commit (more than one parent)
+            print(len(repo.branches.branch("DEF").user_commits))
+            # if len(local_commit.parents) < 2:
+            #     comments.append("The local DEF branch does not have a merge commit (should result from pulling diverged branches).")
+
+    if comments:
+        return exercise.to_output(comments, GitAutograderStatus.UNSUCCESSFUL)
     return exercise.to_output([
         "Great work! All required branches are present and correctly set up."
     ], GitAutograderStatus.SUCCESSFUL)
