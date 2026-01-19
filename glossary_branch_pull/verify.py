@@ -61,7 +61,7 @@ def verify(exercise: GitAutograderExercise) -> GitAutograderOutput:
             if remote_commit_hexsha not in local_commits:
                 comments.append(COMMIT_MISSING.format(branch="DEF"))
             # Check for merge commit (more than one parent)
-            print(len(repo.branches.branch("DEF").user_commits))
+            print(len(local_commits))
             # if len(local_commit.parents) < 2:
             #     comments.append("The local DEF branch does not have a merge commit (should result from pulling diverged branches).")
 
