@@ -30,7 +30,7 @@ def setup(verbose: bool = False):
     print("Waiting for GitHub to process the fork...")
     clone_repo_with_git(f"https://github.com/{full_repo_name}", verbose, ".")
 
-    os.chdir(LOCAL_DIR)
+    # os.chdir(LOCAL_DIR)
     
     # add_remote("origin", f"https://github.com/{full_repo_name}", verbose)
     # run_command(["git", "fetch", "origin"], verbose)
