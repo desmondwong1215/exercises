@@ -28,7 +28,7 @@ def setup(verbose: bool = False):
 
     fork_repo(TARGET_REPO, FORK_NAME, verbose, False)
     print("Waiting for GitHub to process the fork...")
-    clone_repo_with_git(f"https://github.com/{full_repo_name}", verbose, LOCAL_DIR)
+    clone_repo_with_git(f"https://github.com/{full_repo_name}", verbose, ".")
 
     os.chdir(LOCAL_DIR)
     
