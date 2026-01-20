@@ -21,9 +21,5 @@ def setup(verbose: bool = False):
     
     clone_repo_with_git(f"https://github.com/{full_repo_name}", verbose, ".")
 
-    checkout("ABC", False, verbose)
-    checkout("DEF", False, verbose)
     checkout("VWX", False, verbose)
-    checkout("STU", False, verbose)
-    checkout("main", False, verbose)
     
