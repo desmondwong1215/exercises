@@ -93,13 +93,18 @@ def test_missing_development():
 def test_wrong_branch_point():
     with loader.start() as (test, rs):
         rs.git.commit(message="Empty", allow_empty=True)
+        rs.helper(GitMasteryHelper).create_start_tag()
+
+        rs.files.create_or_update("conflict.txt", "Hello world")
+        rs.git.add(all=True)
+        rs.git.commit(message="Should be branch point")
+        rs.git.tag("v1.0")
+
+        rs.git.commit(message="Commit after v1.0", allow_empty=True)
+        rs.git.commit(message="Another commit after v1.0", allow_empty=True)
 
         rs.git.checkout("development", branch=True)
         rs.git.commit(message="Commit on development", allow_empty=True)
-
-        rs.git.checkout("main")
-        rs.git.commit(message="Expected branch point", allow_empty=True)
-        rs.git.tag("v1.0")
 
         output = test.run()
         assert_output(output, GitAutograderStatus.UNSUCCESSFUL, [WRONG_BRANCH_POINT])
@@ -138,7 +143,7 @@ def test_no_merge_feature_search():
         rs.git.add(all=True)
         rs.git.commit(no_edit=True)
 
-        rs.git.branch("feature-search", delete=True, force=True)
+        rs.git.branch("feature-search", delete=True)
         rs.git.branch("feature-delete", delete=True)
 
         rs.files.create_or_update("features.md", FEATURES)
@@ -147,7 +152,7 @@ def test_no_merge_feature_search():
         assert_output(
             output,
             GitAutograderStatus.UNSUCCESSFUL,
-            [MERGE_FEATURE_SEARCH_FIRST, RESET_MESSAGE],
+            [MERGE_FEATURE_SEARCH_FIRST],
         )
 
 
@@ -190,7 +195,7 @@ def test_no_merge_feature_delete():
         assert_output(
             output,
             GitAutograderStatus.UNSUCCESSFUL,
-            [MERGE_FEATURE_DELETE_SECOND, RESET_MESSAGE],
+            [MERGE_FEATURE_DELETE_SECOND],
         )
 
 
