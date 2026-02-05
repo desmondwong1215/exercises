@@ -1,5 +1,4 @@
-from exercise_utils.file import create_or_update_file
-from exercise_utils.git import add, checkout, commit
+from exercise_utils.git import checkout
 from exercise_utils.github_cli import (
     clone_repo_with_gh,
     delete_repo,
@@ -23,12 +22,6 @@ def setup(verbose: bool = False):
 
     clone_repo_with_gh(f"https://github.com/{username}/{FORK_NAME}", verbose, ".")
 
-    checkout("PQR", True, verbose)
-
-    create_or_update_file(
-        "r.txt",
-        "refactoring: Improving the code without changing what it does... in theory.\n",
-    )
-
-    add(["r.txt"], verbose)
-    commit("Add 'refactoring'", verbose)
+    # creates VWX branch locally, tracking remote branch
+    checkout("VWX", False, verbose)
+    checkout("main", False, verbose)
