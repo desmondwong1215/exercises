@@ -12,8 +12,6 @@ from exercise_utils.github_cli import (
 TARGET_REPO = "git-mastery/samplerepo-funny-glossary"
 FORK_NAME = "gitmastery-samplerepo-funny-glossary"
 
-__resources__ = {}
-
 
 def setup(verbose: bool = False):
     username = get_github_username(verbose)
@@ -33,6 +31,11 @@ def setup(verbose: bool = False):
 
     checkout("DEF", False, verbose)
     run_command(["git", "reset", "--hard", "HEAD~1"], verbose)
-    create_or_update_file("d.txt", "documentation: Evidence that someone once cared.\n")
+    create_or_update_file(
+        "d.txt",
+        """
+        documentation: Evidence that someone once cared.
+        """,
+    )
     add(["d.txt"], verbose)
     commit("Add 'documentation'", verbose)
