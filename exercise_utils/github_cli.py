@@ -145,13 +145,9 @@ def create_pr(title: str, body: str, base: str, head: str, verbose: bool) -> boo
     return result.is_success()
 
 
-def view_pr(
-    pr_number: int, verbose: bool, include_comments: bool = True
-) -> dict[str, str]:
+def view_pr(pr_number: int, verbose: bool) -> dict[str, str]:
     """View pull request details."""
-    fields = "title,body,state,author,headRefName,baseRefName"
-    if include_comments:
-        fields += ",comments"
+    fields = "title,body,state,author,headRefName,baseRefName,comments,reviews"
 
     result = run(
         [
@@ -251,17 +247,19 @@ def review_pr(pr_number: int, comment: str, action: str, verbose: bool) -> bool:
     return result.is_success()
 
 
-def reply_to_comment(comment_id: int, reply: str, verbose: bool) -> bool:
-    """Reply to a specific PR comment."""
+def reply_to_comment(pr_number: int, comment_id: int, reply: str, verbose: bool) -> bool:
+    """Reply to a specific PR comment, using pr_number to determine repo."""
     import json
 
-    # Get repo info
-    repo_result = run(["gh", "repo", "view", "--json", "nameWithOwner"], verbose)
-    if not repo_result.is_success():
+    # Get repo info for the given PR
+    pr_result = run([
+        "gh", "pr", "view", str(pr_number), "--json", "repository"
+    ], verbose)
+    if not pr_result.is_success():
         return False
 
-    repo_info = json.loads(repo_result.stdout)
-    owner_repo = repo_info["nameWithOwner"]
+    repo_info = json.loads(pr_result.stdout)
+    owner_repo = repo_info["repository"]["nameWithOwner"]
 
     result = run(
         [

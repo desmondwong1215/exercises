@@ -1,3 +1,5 @@
+from typing import Any, Dict, List
+
 from exercise_utils.file import create_or_update_file
 from exercise_utils.git import add, checkout, push, remove_remote
 from exercise_utils.github_cli import (
@@ -58,7 +60,11 @@ def setup(verbose: bool = False):
         # Bob responds to the review
         bob.comment_on_pr(1, "Thanks for the review!", verbose)
 
-        print(view_pr(1, verbose, include_comments=True))
-
+        data = view_pr(1, verbose)
+        print(data["comments"])
+        # comments = data["comments"]
+        # first_comment_id = comments[0]["id"]
+        # alice.reply_to_comment(1, first_comment_id, "You're welcome!", verbose)
+        
         alice.close_pr(1, verbose, comment="Closing the PR as it's just for testing purposes.")
 
