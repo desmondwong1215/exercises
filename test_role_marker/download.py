@@ -34,7 +34,7 @@ def setup(verbose: bool = False):
         "refactoring: Improving the code without changing what it does... in theory.\n",
     )
     add(["r.txt"], verbose)
-    bob.commit("Add 'refactoring'", verbose)
+    bob.commit("Add 'refactoring' to r.txt", verbose)
 
     # Bob pushes and creates a PR
     push("origin", "PQR", verbose)
@@ -45,6 +45,7 @@ def setup(verbose: bool = False):
         "PQR",
         verbose,
     )
+    print (f"PR created: {pr_url}")
 
     if pr_url:
         print(f"PR created: {pr_url}")
