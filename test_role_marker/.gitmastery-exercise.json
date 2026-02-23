@@ -1,0 +1,14 @@
+{
+  "exercise_name": "test-role-marker",
+  "tags": [],
+  "requires_git": true,
+  "requires_github": true,
+  "base_files": {},
+  "exercise_repo": {
+    "repo_type": "local",
+    "repo_name": "test",
+    "repo_title": null,
+    "create_fork": null,
+    "init": true
+  }
+}
