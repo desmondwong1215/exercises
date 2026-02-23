@@ -1,8 +1,12 @@
 """Wrapper for Git CLI commands."""
 
-from typing import List, Optional
+from typing import Callable, List, Optional
 
 from exercise_utils.cli import run, run_command
+
+
+# Registry for function implementations - allows monkey-patching to work with direct imports
+_impl_registry: dict[str, Callable] = {}
 
 
 def tag(tag_name: str, verbose: bool) -> None:
@@ -22,9 +26,15 @@ def add(files: List[str], verbose: bool) -> None:
 
 # TODO(woojiahao): Maybe these should be built from a class like builder for each
 # option
-def commit(message: str, verbose: bool) -> None:
+def _commit_impl(message: str, verbose: bool) -> None:
     """Creates a commit with the given message."""
     run_command(["git", "commit", "-m", message], verbose)
+
+
+def commit(message: str, verbose: bool) -> None:
+    """Creates a commit with the given message."""
+    impl = _impl_registry.get("commit", _commit_impl)
+    return impl(message, verbose)
 
 
 def empty_commit(message: str, verbose: bool) -> None:
@@ -52,7 +62,7 @@ def merge(target_branch: str, ff: bool, verbose: bool) -> None:
         run_command(["git", "merge", target_branch, "--no-edit", "--no-ff"], verbose)
 
 
-def merge_with_message(
+def _merge_with_message_impl(
     target_branch: str, ff: bool, message: str, verbose: bool
 ) -> None:
     """Merges the current branch with the target one."""
@@ -60,6 +70,14 @@ def merge_with_message(
         run_command(["git", "merge", target_branch, "-m", message], verbose)
     else:
         run_command(["git", "merge", target_branch, "-m", message, "--no-ff"], verbose)
+
+
+def merge_with_message(
+    target_branch: str, ff: bool, message: str, verbose: bool
+) -> None:
+    """Merges the current branch with the target one."""
+    impl = _impl_registry.get("merge_with_message", _merge_with_message_impl)
+    return impl(target_branch, ff, message, verbose)
 
 
 def init(verbose: bool) -> None:

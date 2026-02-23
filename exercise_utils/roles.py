@@ -60,19 +60,22 @@ class RoleMarker:
         """Context manager to automatically apply role markers to git operations."""
         self._active_role = role
         self._original_functions = {
-            "commit": git.commit,
-            "merge_with_message": git.merge_with_message,
+            "commit": git._commit_impl,
+            "merge_with_message": git._merge_with_message_impl,
         }
 
-        git.commit = self._create_wrapper(git.commit, 0)
-        git.merge_with_message = self._create_wrapper(git.merge_with_message, 2)
+        # Patch the implementation registry instead of the module namespace
+        git._impl_registry["commit"] = self._create_wrapper(git._commit_impl, 0)
+        git._impl_registry["merge_with_message"] = self._create_wrapper(
+            git._merge_with_message_impl, 2
+        )
 
         try:
             yield
         finally:
-            # Restore original functions
-            git.commit = self._original_functions["commit"]
-            git.merge_with_message = self._original_functions["merge_with_message"]
+            # Clear the registry to restore original behavior
+            git._impl_registry.pop("commit", None)
+            git._impl_registry.pop("merge_with_message", None)
             
             self._original_functions.clear()
             self._active_role = None
