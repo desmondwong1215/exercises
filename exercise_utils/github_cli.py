@@ -135,10 +135,10 @@ def create_pr(title: str, body: str, base: str, head: str, verbose: bool) -> boo
         "gh",
         "pr",
         "create",
-        f"--title {title}",
-        f"--body {body}",
-        f"--base {base}",
-        f"--head {head}",
+        "--title", title,
+        "--body", body,
+        "--base", base,
+        "--head", head,
     ]
 
     result = run(command, verbose)
@@ -159,7 +159,7 @@ def view_pr(
             "pr",
             "view",
             str(pr_number),
-            f"--json {fields}"
+            "--json", fields
         ],
         verbose,
     )
@@ -174,7 +174,7 @@ def view_pr(
 def comment_on_pr(pr_number: int, comment: str, verbose: bool) -> bool:
     """Add a comment to a pull request."""
     result = run(
-        ["gh", "pr", "comment", str(pr_number), f"--body {comment}"],
+        ["gh", "pr", "comment", str(pr_number), "--body", comment],
         verbose,
     )
     return result.is_success()

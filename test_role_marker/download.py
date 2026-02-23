@@ -48,7 +48,6 @@ def setup(verbose: bool = False):
         "PQR",
         verbose,
     )
-    print(success)
 
     if success:
         print(list_prs("all", verbose))
