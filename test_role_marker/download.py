@@ -6,6 +6,8 @@ from exercise_utils.github_cli import (
     fork_repo,
     get_github_username,
     has_repo,
+    list_prs,
+    view_pr,
 )
 from exercise_utils.roles import RoleMarker
 
@@ -39,7 +41,7 @@ def setup(verbose: bool = False):
 
     # Bob pushes and creates a PR
     push("origin", "PQR", verbose)
-    pr_url = bob.create_pr(
+    success = bob.create_pr(
         "Add refactoring glossary term",
         "This PR adds the definition for refactoring to our funny glossary.",
         "main",
@@ -47,11 +49,15 @@ def setup(verbose: bool = False):
         verbose,
     )
 
-    if pr_url:
+    if success:
+        print(list_prs("all", verbose))
+        print(view_pr(1, verbose, include_comments=True))
 
         # Alice reviews the PR
         alice.review_pr(1, "Looks good to me!", "comment", verbose)
 
         # Bob responds to the review
         bob.comment_on_pr(1, "Thanks for the review!", verbose)
+
+        alice.close_pr(1, verbose, comment="Closing the PR as it's just for testing purposes.")
 
