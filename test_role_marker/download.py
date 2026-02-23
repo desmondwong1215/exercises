@@ -51,13 +51,14 @@ def setup(verbose: bool = False):
 
     if success:
         print(list_prs("all", verbose))
-        print(view_pr(1, verbose, include_comments=True))
 
         # Alice reviews the PR
         alice.review_pr(1, "Looks good to me!", "comment", verbose)
 
         # Bob responds to the review
         bob.comment_on_pr(1, "Thanks for the review!", verbose)
+
+        print(view_pr(1, verbose, include_comments=True))
 
         alice.close_pr(1, verbose, comment="Closing the PR as it's just for testing purposes.")
 
