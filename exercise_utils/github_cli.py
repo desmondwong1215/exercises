@@ -300,6 +300,8 @@ def review_pr(pr_number: int, comment: str, action: str, verbose: bool) -> bool:
     Returns:
         True if review was submitted successfully, False otherwise
     """
+    if action == "approve" or action not in ["request-changes", "comment"]:
+        return False
     command = [
         "gh",
         "pr",

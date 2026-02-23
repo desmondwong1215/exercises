@@ -46,13 +46,11 @@ def setup(verbose: bool = False):
         "PQR",
         verbose,
     )
-    print (f"PR created: {pr_url}")
 
     if pr_url:
-        print(f"PR created: {pr_url}")
 
         # Alice reviews the PR
-        alice.review_pr(1, "Looks good to me!", "approve", verbose)
+        alice.review_pr(1, "Looks good to me!", "comment", verbose)
 
         # Bob responds to the review
         bob.comment_on_pr(1, "Thanks for the review!", verbose)
