@@ -99,6 +99,6 @@ class RoleMarker:
         return github_cli.close_pr(pr_number, verbose, formatted_comment)
 
 
-    def reply_to_comment(self, comment_id: int, reply: str, verbose: bool) -> bool:
+    def reply_to_comment(self, comment_id: str, reply: str, verbose: bool) -> bool:
         """Reply to a specific PR comment with automatic role marker."""
         return github_cli.reply_to_comment(comment_id, self._format_text(reply), verbose)

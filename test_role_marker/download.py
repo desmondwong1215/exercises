@@ -61,7 +61,10 @@ def setup(verbose: bool = False):
         bob.comment_on_pr(1, "Thanks for the review!", verbose)
 
         data = view_pr(1, verbose)
-        print(data["comments"])
+        comments = data["comments"]
+        first_comment_id = comments[0]
+        # alice.reply_to_comment(first_comment_id, "You're welcome!", verbose)
+        print(first_comment_id)
         # comments = data["comments"]
         # first_comment_id = comments[0]["id"]
         # alice.reply_to_comment(1, first_comment_id, "You're welcome!", verbose)

@@ -247,29 +247,44 @@ def review_pr(pr_number: int, comment: str, action: str, verbose: bool) -> bool:
     return result.is_success()
 
 
-def reply_to_comment(pr_number: int, comment_id: int, reply: str, verbose: bool) -> bool:
-    """Reply to a specific PR comment, using pr_number to determine repo."""
-    import json
+# def reply_to_comment(pr_number: int, comment_id: int, reply: str, verbose: bool) -> bool:
+#     """Reply to a specific PR comment, using pr_number to determine repo."""
+#     import json
 
-    # Get repo info for the given PR
-    pr_result = run([
-        "gh", "pr", "view", str(pr_number), "--json", "repository"
-    ], verbose)
-    if not pr_result.is_success():
-        return False
+#     # Get repo info for the given PR
+#     pr_result = run([
+#         "gh", "pr", "view", str(pr_number), "--json", "repository"
+#     ], verbose)
+#     if not pr_result.is_success():
+#         return False
 
-    repo_info = json.loads(pr_result.stdout)
-    owner_repo = repo_info["repository"]["nameWithOwner"]
+#     repo_info = json.loads(pr_result.stdout)
+#     owner_repo = repo_info["repository"]["nameWithOwner"]
 
+#     result = run(
+#         [
+#             "gh",
+#             "api",
+#             f"repos/{owner_repo}/pulls/comments/{comment_id}/replies",
+#             "-f",
+#             f"body={reply}",
+#         ],
+#         verbose,
+#     )
+
+#     return result.is_success()
+
+
+def reply_to_comment(comment_id: str, reply: str, verbose: bool) -> bool:
+    """Reply to a specific PR comment. Assumes current directory is the correct repo."""
     result = run(
         [
             "gh",
             "api",
-            f"repos/{owner_repo}/pulls/comments/{comment_id}/replies",
+            f"repos/$(git config --get remote.origin.url | sed -E 's#.*/(.*)/(.*)\\.git#\\1/\\2#')/pulls/comments/{comment_id}/replies",
             "-f",
             f"body={reply}",
         ],
         verbose,
     )
-
     return result.is_success()
