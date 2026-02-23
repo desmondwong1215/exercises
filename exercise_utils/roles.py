@@ -1,24 +1,29 @@
 import re
-from contextlib import contextmanager
-from typing import Callable, Generator, Optional
+from typing import Optional
 
-from exercise_utils import git
+from exercise_utils import git, github_cli
 
 
 class RoleMarker:
-    """Handles role marker formatting and extraction for collaborative workflows."""
+    """Wrapper for git and GitHub operations with automatic role marker formatting.
+
+    Usage:
+        bob = RoleMarker("teammate-bob")
+        bob.commit("Add feature", verbose=True)
+        # Creates: "[ROLE:teammate-bob] Add feature"
+    """
 
     PATTERN = re.compile(r"^\[ROLE:([a-zA-Z0-9_-]+)\]\s*", re.IGNORECASE)
 
-    def __init__(self) -> None:
-        """Initialize RoleMarker."""
-        self._active_role: Optional[str] = None
-        self._original_functions: dict[str, Callable] = {}
+    def __init__(self, role: str) -> None:
+        """Initialize RoleMarker with a specific role."""
+        self.role = role
 
     @staticmethod
     def format(role: str, text: str) -> str:
         """Format text with a role marker.
-        Example: role='teammate-alice', text='Add feature' -> '[ROLE:teammate-alice] Add feature'
+        Example:
+            format('teammate-alice', 'Add feature') -> '[ROLE:teammate-alice] Add feature'
         """
         return f"[ROLE:{role}] {text}"
 
@@ -38,49 +43,63 @@ class RoleMarker:
         """Remove role marker from text if present."""
         return RoleMarker.PATTERN.sub("", text)
 
-    def _create_wrapper(
-        self, original_func: Callable, text_param_index: int
-    ) -> Callable:
-        """Create a generic wrapper that adds role markers to a text parameter."""
+    def _format_text(self, text: str) -> str:
+        """Format text with this instance's role marker if not already present."""
+        if not self.has_role_marker(text):
+            return self.format(self.role, text)
+        return text
 
-        def wrapper(*args, **kwargs):
-            args_list = list(args)
+    # Git operations with automatic role markers
 
-            if text_param_index < len(args_list):
-                text = args_list[text_param_index]
-                if self._active_role and not self.has_role_marker(text):
-                    args_list[text_param_index] = self.format(self._active_role, text)
+    def commit(self, message: str, verbose: bool) -> None:
+        """Create a commit with automatic role marker."""
+        git.commit(self._format_text(message), verbose)
 
-            return original_func(*args_list, **kwargs)
+    def merge_with_message(
+        self, target_branch: str, ff: bool, message: str, verbose: bool
+    ) -> None:
+        """Merge branches with custom message and automatic role marker. """
+        git.merge_with_message(target_branch, ff, self._format_text(message), verbose)
 
-        return wrapper
+    # GitHub PR operations with automatic role markers
 
-    @contextmanager
-    def as_role(self, role: str) -> Generator[None, None, None]:
-        """Context manager to automatically apply role markers to git operations."""
-        self._active_role = role
-        self._original_functions = {
-            "commit": git._commit_impl,
-            "merge_with_message": git._merge_with_message_impl,
-        }
+    def create_pr(
+        self, title: str, body: str, base: str, head: str, verbose: bool
+    ) -> str:
+        """Create a pull request with automatic role markers.
 
-        # Patch the implementation registry instead of the module namespace
-        git._impl_registry["commit"] = self._create_wrapper(git._commit_impl, 0)
-        git._impl_registry["merge_with_message"] = self._create_wrapper(
-            git._merge_with_message_impl, 2
+        Returns:
+            PR URL if successful, empty string otherwise
+        """
+        return github_cli.create_pr(
+            self._format_text(title), self._format_text(body), base, head, verbose
         )
 
-        try:
-            yield
-        finally:
-            # Clear the registry to restore original behavior
-            git._impl_registry.pop("commit", None)
-            git._impl_registry.pop("merge_with_message", None)
-            
-            self._original_functions.clear()
-            self._active_role = None
+    def comment_on_pr(self, pr_number: int, comment: str, verbose: bool) -> bool:
+        """Add a comment to a pull request with automatic role marker.
 
-    @property
-    def active_role(self) -> Optional[str]:
-        """Get the currently active role."""
-        return self._active_role
+        Returns:
+            True if comment was added successfully, False otherwise
+        """
+        return github_cli.comment_on_pr(pr_number, self._format_text(comment), verbose)
+
+    def review_pr(
+        self, pr_number: int, comment: str, action: str, verbose: bool
+    ) -> bool:
+        """Submit a review on a pull request with automatic role marker.
+
+        Returns:
+            True if review was submitted successfully, False otherwise
+        """
+        return github_cli.review_pr(
+            pr_number, self._format_text(comment), action, verbose
+        )
+
+    def close_pr(self, pr_number: int, verbose: bool, comment: Optional[str] = None) -> bool:
+        """Close a pull request without merging.
+        
+        Returns:
+            True if PR was closed successfully, False otherwise
+        """
+        formatted_comment = self._format_text(comment) if comment else None
+        return github_cli.close_pr(pr_number, verbose, formatted_comment)

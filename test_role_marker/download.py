@@ -10,12 +10,12 @@ from exercise_utils.github_cli import (
 from exercise_utils.roles import RoleMarker
 
 
-MARKER = RoleMarker()
 REPO_OWNER = "git-mastery"
 REPO_NAME = "samplerepo-funny-glossary"
 
-
 def setup(verbose: bool = False):
+    
+    bob = RoleMarker("teammate-bob")
     username = get_github_username(verbose)
     FORK_NAME = f"{username}-gitmastery-samplerepo-funny-glossary"
 
@@ -26,13 +26,11 @@ def setup(verbose: bool = False):
     clone_repo_with_gh(f"https://github.com/{username}/{FORK_NAME}", verbose, ".")
     checkout("PQR", True, verbose)
 
-    print("hello")
-    with MARKER.as_role("teammate-alice"):
-        print("hello from teammate-alice")
-        create_or_update_file(
-            "r.txt",
-            "refactoring: Improving the code without changing what it does... in theory.\n",
-        )
-        add(["r.txt"], verbose)
-        commit("Add 'refactoring'", verbose)
+    # Done by Bob
+    create_or_update_file(
+        "r.txt",
+        "refactoring: Improving the code without changing what it does... in theory.\n",
+    )
+    add(["r.txt"], verbose)
+    bob.commit("Add 'refactoring'", verbose)
 
