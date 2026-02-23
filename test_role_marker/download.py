@@ -63,7 +63,8 @@ def setup(verbose: bool = False):
         data = view_pr(1, verbose)
         comments = data["comments"]
         first_comment_id = comments[0]['id']
-        # alice.reply_to_comment(first_comment_id, "You're welcome!", verbose)
+        print(first_comment_id)
+        print(alice.reply_to_comment(first_comment_id, "You're welcome!", verbose))
         # print(first_comment_id['id'])
         # comments = data["comments"]
         # first_comment_id = comments[0]["id"]
