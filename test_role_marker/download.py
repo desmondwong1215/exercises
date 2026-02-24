@@ -65,9 +65,9 @@ def setup(verbose: bool = False):
 
     pr_number = 1
     config_path = Path("../.gitmastery-exercise.json")
-    pr_url = f"https://github.com/{username}/{FORK_NAME}/pull/{pr_number}"
+    repo_full_name = f"{username}/{FORK_NAME}"
     config = json.loads(config_path.read_text())
     config["pr_number"] = pr_number
     config["teammate_role"] = "teammate-bob"
-    config["pr_url"] = pr_url
+    config["repo_full_name"] = repo_full_name
     config_path.write_text(json.dumps(config, indent=2))
