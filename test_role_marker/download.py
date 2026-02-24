@@ -1,4 +1,6 @@
+import json
 from typing import Any, Dict, List
+from pathlib import Path
 
 from exercise_utils.file import create_or_update_file
 from exercise_utils.git import add, checkout, push, remove_remote
@@ -16,6 +18,7 @@ from exercise_utils.roles import RoleMarker
 
 TARGET_REPO = "git-mastery/samplerepo-funny-glossary"
 FORK_NAME = "gitmastery-samplerepo-funny-glossary"
+METADATA_FILE = ".pr_metadata.json"
 
 
 def setup(verbose: bool = False):
@@ -60,3 +63,11 @@ def setup(verbose: bool = False):
         
         alice.close_pr(1, verbose, comment="Closing the PR as it's just for testing purposes.")
 
+    pr_number = 1
+    pr_url = f"https://github.com/{username}/{FORK_NAME}/pull/{pr_number}"
+    config_path = Path(".gitmastery-exercise.json")
+    config = json.loads(config_path.read_text())
+    config["pr_number"] = pr_number
+    config["teammate_role"] = "teammate-bob"
+    config["pr_url"] = pr_url
+    config_path.write_text(json.dumps(config, indent=2))
