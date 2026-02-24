@@ -64,8 +64,8 @@ def setup(verbose: bool = False):
         alice.close_pr(1, verbose, comment="Closing the PR as it's just for testing purposes.")
 
     pr_number = 1
+    config_path = Path("../.gitmastery-exercise.json")
     pr_url = f"https://github.com/{username}/{FORK_NAME}/pull/{pr_number}"
-    config_path = Path(".gitmastery-exercise.json")
     config = json.loads(config_path.read_text())
     config["pr_number"] = pr_number
     config["teammate_role"] = "teammate-bob"
