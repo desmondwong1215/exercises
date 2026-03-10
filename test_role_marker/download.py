@@ -56,18 +56,25 @@ def setup(verbose: bool = False):
         full_repo_name,
         verbose,
     )
+    print(f"Created PR #{pr_number} at {full_repo_name}")
 
     if pr_number:
         # Alice reviews the PR
         alice.review_pr(pr_number, "Looks good to me!", "comment", full_repo_name, verbose)
-
+        print(f"Alice reviewed PR #{pr_number}")
         # Bob responds to the review
         bob.comment_on_pr(pr_number, "Thanks for the review!", full_repo_name, verbose)
-        
+        print(f"Bob commented on PR #{pr_number}")
         alice.close_pr(pr_number, full_repo_name, comment="Closing the PR as it's just for testing purposes.", verbose=verbose)
+        print(f"Alice closed PR #{pr_number}")
 
-    update_config_fields({
-        "exercise_repo.pr_number": pr_number,
-        "exercise_repo.repo_full_name": full_repo_name,
-        "teammate_role": "teammate-bob",    
-    })
+    try: 
+        update_config_fields({
+            "exercise_repo.pr_number": pr_number,
+            "exercise_repo.repo_full_name": full_repo_name,
+            "teammate_role": "teammate-bob",    
+        })
+    except Exception as e:
+        print(f"Error updating config: {e}")
+        raise e
+    print("Setup complete. Configuration updated with PR details.")
