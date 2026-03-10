@@ -31,15 +31,18 @@ def setup(verbose: bool = False):
     username = get_github_username(verbose)
     full_repo_name = f"{username}/{FORK_NAME}"
 
+    print(f"Setting up exercise repository for {username}...")
     if has_repo(full_repo_name, True, verbose):
         delete_repo(full_repo_name, verbose)
 
+    print(f"Forking {TARGET_REPO} to {full_repo_name}...")
     fork_repo(TARGET_REPO, FORK_NAME, verbose, False)
     clone_repo_with_gh(f"{username}/{FORK_NAME}", verbose, ".")
     remove_remote("upstream", verbose)
     checkout("PQR", True, verbose)
 
     # Bob adds a new glossary term
+    print("Bob is adding a new glossary term...")
     create_or_update_file(
         "r.txt",
         "refactoring: Improving the code without changing what it does... in theory.\n",
@@ -49,6 +52,7 @@ def setup(verbose: bool = False):
 
     # Bob pushes and creates a PR
     push("origin", "PQR", verbose)
+    print("Bob pushed the branch to origin. Now creating a PR...")
     pr_number = bob.create_pr(
         "Add refactoring glossary term",
         "This PR adds the definition for refactoring to our funny glossary.",
