@@ -24,6 +24,7 @@ METADATA_FILE = ".pr_metadata.json"
 
 
 def setup(verbose: bool = False):
+    print("hello")
     bob = RoleMarker("teammate-bob")
     alice = RoleMarker("teammate-alice")
 
