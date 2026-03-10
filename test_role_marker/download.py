@@ -37,7 +37,9 @@ def setup(verbose: bool = False):
 
     print(f"Forking {TARGET_REPO} to {full_repo_name}...")
     fork_repo(TARGET_REPO, FORK_NAME, verbose, False)
+    print("Fork created. Cloning the forked repository...")
     clone_repo_with_gh(f"{username}/{FORK_NAME}", verbose, ".")
+    print("Repository cloned. Setting up branches and making changes...")
     remove_remote("upstream", verbose)
     checkout("PQR", True, verbose)
 
