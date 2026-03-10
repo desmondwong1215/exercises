@@ -20,7 +20,6 @@ from exercise_utils.roles import RoleMarker
 
 TARGET_REPO = "git-mastery/samplerepo-funny-glossary"
 FORK_NAME = "gitmastery-samplerepo-funny-glossary"
-METADATA_FILE = ".pr_metadata.json"
 
 
 def setup(verbose: bool = False):
@@ -38,7 +37,7 @@ def setup(verbose: bool = False):
     print(f"Forking {TARGET_REPO} to {full_repo_name}...")
     fork_repo(TARGET_REPO, FORK_NAME, verbose, False)
     print("Fork created. Cloning the forked repository...")
-    clone_repo_with_gh(f"{username}/{FORK_NAME}", verbose, ".")
+    clone_repo_with_gh(f"https://github.com/{username}/{FORK_NAME}", verbose, ".")
     print("Repository cloned. Setting up branches and making changes...")
     # remove_remote("upstream", verbose)
     print("Removed upstream remote to avoid confusion during exercise.")
