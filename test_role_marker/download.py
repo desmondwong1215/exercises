@@ -2,6 +2,7 @@ import json
 from typing import Any, Dict, List
 from pathlib import Path
 
+from exercise_utils.exercise_config import update_config_fields
 from exercise_utils.file import create_or_update_file
 from exercise_utils.git import add, checkout, push, remove_remote
 from exercise_utils.github_cli import (
@@ -9,6 +10,7 @@ from exercise_utils.github_cli import (
     delete_repo,
     fork_repo,
     get_github_username,
+    get_latest_pr_number_by_author,
     has_repo,
     list_prs,
     view_pr,
@@ -46,28 +48,26 @@ def setup(verbose: bool = False):
 
     # Bob pushes and creates a PR
     push("origin", "PQR", verbose)
-    success = bob.create_pr(
+    pr_number = bob.create_pr(
         "Add refactoring glossary term",
         "This PR adds the definition for refactoring to our funny glossary.",
         "main",
         "PQR",
+        full_repo_name,
         verbose,
     )
 
-    if success:
+    if pr_number:
         # Alice reviews the PR
-        alice.review_pr(1, "Looks good to me!", "comment", verbose)
+        alice.review_pr(pr_number, "Looks good to me!", "comment", full_repo_name, verbose)
 
         # Bob responds to the review
-        bob.comment_on_pr(1, "Thanks for the review!", verbose)
+        bob.comment_on_pr(pr_number, "Thanks for the review!", full_repo_name, verbose)
         
-        alice.close_pr(1, verbose, comment="Closing the PR as it's just for testing purposes.")
+        alice.close_pr(pr_number, full_repo_name, comment="Closing the PR as it's just for testing purposes.", verbose=verbose)
 
-    pr_number = 1
-    config_path = Path("../.gitmastery-exercise.json")
-    repo_full_name = f"{username}/{FORK_NAME}"
-    config = json.loads(config_path.read_text())
-    config["pr_number"] = pr_number
-    config["teammate_role"] = "teammate-bob"
-    config["repo_full_name"] = repo_full_name
-    config_path.write_text(json.dumps(config, indent=2))
+    update_config_fields({
+        "exercise_repo.pr_number": pr_number,
+        "exercise_repo.repo_full_name": full_repo_name,
+        "teammate_role": "teammate-bob",    
+    })
