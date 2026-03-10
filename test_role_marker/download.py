@@ -40,7 +40,7 @@ def setup(verbose: bool = False):
     print("Fork created. Cloning the forked repository...")
     clone_repo_with_gh(f"{username}/{FORK_NAME}", verbose, ".")
     print("Repository cloned. Setting up branches and making changes...")
-    remove_remote("upstream", verbose)
+    # remove_remote("upstream", verbose)
     print("Removed upstream remote to avoid confusion during exercise.")
     checkout("PQR", True, verbose)
     print("Checked out to new branch PQR. Now making changes and creating a PR...")
