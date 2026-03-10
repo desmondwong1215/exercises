@@ -1,6 +1,7 @@
 """Wrapper for Github CLI commands."""
 # TODO: The following should be built using the builder pattern
 
+import re
 from typing import Any, Optional
 
 from exercise_utils.cli import run
@@ -136,7 +137,7 @@ def create_pr(
     head: str,
     repo_full_name: str,
     verbose: bool,
-) -> bool:
+) -> Optional[int]:
     """Create a pull request."""
     command = [
         "gh",
@@ -155,7 +156,14 @@ def create_pr(
     command = _append_repo_flag(command, repo_full_name)
 
     result = run(command, verbose)
-    return result.is_success()
+    if not result.is_success():
+        return None
+
+    match = re.search(r"/pull/(\d+)", result.stdout)
+    if match is None:
+        return None
+
+    return int(match.group(1))
 
 
 def _append_repo_flag(command: list[str], repo_full_name: str) -> list[str]:
