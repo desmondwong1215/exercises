@@ -2,7 +2,7 @@ import json
 from typing import Any, Dict, List
 from pathlib import Path
 
-from exercise_utils.exercise_config import update_config_fields
+from exercise_utils.exercise_config import add_pr_config, update_config_fields
 from exercise_utils.file import create_or_update_file
 from exercise_utils.git import add, checkout, push, remove_remote
 from exercise_utils.github_cli import (
@@ -63,11 +63,4 @@ def setup(verbose: bool = False):
         bob.comment_on_pr(pr_number, "Thanks for the review!", full_repo_name, verbose)
         alice.close_pr(pr_number, full_repo_name, comment="Closing the PR as it's just for testing purposes.", verbose=verbose)
 
-    try: 
-        update_config_fields({
-            "exercise_repo.pr_number": pr_number,
-            "exercise_repo.repo_full_name": full_repo_name,
-        })
-    except Exception as e:
-        print(f"Error updating config: {e}")
-        raise e
+    add_pr_config(pr_number, full_repo_name)
