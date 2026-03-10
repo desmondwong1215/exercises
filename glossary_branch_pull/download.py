@@ -21,7 +21,7 @@ def setup(verbose: bool = False):
         delete_repo(full_repo_name, verbose)
 
     fork_repo(TARGET_REPO, FORK_NAME, verbose, False)
-    clone_repo_with_gh(f"{username}/{FORK_NAME}", verbose, ".")
+    clone_repo_with_gh(f"https://github.com/{username}/{FORK_NAME}", verbose, ".")
     remove_remote("upstream", verbose)
 
     run_command(["git", "branch", "-dr", "origin/VWX"], verbose)
