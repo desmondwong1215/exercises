@@ -21,7 +21,7 @@ def setup(verbose: bool = False):
     fork_repo(UPSTREAM_REPO, FORK_NAME, verbose, default_branch_only=False)
 
     clone_repo_with_gh(
-        f"{username}/{FORK_NAME}",
+        f"https://github.com/{username}/{FORK_NAME}",
         verbose,
         ".",
     )
