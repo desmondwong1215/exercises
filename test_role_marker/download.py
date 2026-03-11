@@ -63,4 +63,5 @@ def setup(verbose: bool = False):
         bob.comment_on_pr(pr_number, "Thanks for the review!", full_repo_name, verbose)
         alice.close_pr(pr_number, full_repo_name, comment="Closing the PR as it's just for testing purposes.", verbose=verbose)
 
-    add_pr_config(pr_number, full_repo_name)
+        add_pr_config(pr_number, full_repo_name)
+        
