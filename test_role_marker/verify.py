@@ -13,12 +13,7 @@ def verify(exercise: GitAutograderExercise) -> GitAutograderOutput:
     if pr_number is None:
         raise exercise.wrong_answer(["PR number is missing from config."])
     pr_number = int(pr_number)
-    pr_data = exercise.view_pr(pr_number)
-    print(pr_data)
-    comments = pr_data["comments"]
-    print(comments)
-    print(comments[0]["body"])
-    # user_comments = [comment for comment in comments if not RoleMarker.has_role_marker(comment["body"])]
+    comments = exercise.repo.prs.pr.comments_from_user
     if not comments:
         raise exercise.wrong_answer([MISSING_COMMENT])
     return exercise.to_output(["Good job on adding a comment to the PR!"], GitAutograderStatus.SUCCESSFUL)
