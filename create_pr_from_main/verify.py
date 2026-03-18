@@ -28,4 +28,4 @@ def verify(exercise: GitAutograderExercise) -> GitAutograderOutput:
     # event = GitAutograderPrEvent.PR_CREATED
     # if not exercise.repo.prs.pr.get_commits_after_event(event):
     #     raise exercise.wrong_answer([f"No commits are found after the PR was created. Please make sure to create the PR from the 'main' branch."])
-    return exercise.to_output([], GitAutograderStatus.SUCCESSFUL)
+    return exercise.to_output(["Good job creating the PR and pushing commits!"], GitAutograderStatus.SUCCESSFUL)
