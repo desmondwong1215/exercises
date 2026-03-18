@@ -6,8 +6,8 @@
   "base_files": {},
   "exercise_repo": {
     "repo_type": "remote",
-    "repo_name": "gm-languages",
-    "repo_title": "languages",
+    "repo_name": "languages",
+    "repo_title": "gm-languages",
     "create_fork": true,
     "init": null
   }
