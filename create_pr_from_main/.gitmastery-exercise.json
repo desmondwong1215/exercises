@@ -7,7 +7,7 @@
   "exercise_repo": {
     "repo_type": "remote",
     "repo_name": "languages",
-    "repo_title": "",
+    "repo_title": "languages",
     "create_fork": true,
     "init": null
   }
