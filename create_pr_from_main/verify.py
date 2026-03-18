@@ -19,7 +19,7 @@ def verify(exercise: GitAutograderExercise) -> GitAutograderOutput:
     if not pr_number:
         raise exercise.wrong_answer([PR_MISSING])
     
-    add_pr_config(pr_number, target_repo)
+    add_pr_config(pr_number, target_repo, "/.gitmastery-exercise.json")
     exercise.fetch_pr()
 
     if exercise.repo.prs.pr.head_branch != "main":
