@@ -341,7 +341,6 @@ def get_pr_numbers_by_author(
     command = _build_pr_command("list", repo_name=repo_name)
     command = _append_value_flag(command, "--author", username)
     command = _append_value_flag(command, "--state", "all")
-    command = _append_value_flag(command, "--limit", "1")
     command = _append_value_flag(command, "--json", "number")
 
     result = run(command, verbose)
