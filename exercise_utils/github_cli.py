@@ -340,7 +340,7 @@ def get_pr_numbers_by_author(
     """Return the latest pull request number created by username in the repo."""
     command = _build_pr_command("list", repo_name=repo_name)
     command = _append_value_flag(command, "--author", username)
-    command = _append_value_flag(command, "--state", "all")
+    command = _append_value_flag(command, "--state", "open")
     command = _append_value_flag(command, "--json", "number")
 
     result = run(command, verbose)
