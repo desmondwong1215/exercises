@@ -42,6 +42,32 @@ def update_config_fields(updates: dict[str, Any], config_path: Path) -> None:
     config_path.write_text(json.dumps(config, indent=2))
 
 
+def add_pr_number(
+    pr_number: int,
+    config_path: Path,
+) -> None:
+    update_config_fields(
+        {
+            "exercise_repo": {
+                "pr_number": pr_number,
+            }
+        },
+        config_path=config_path/".gitmastery-exercise.json",
+    )
+
+def add_pr_repo_full_name(
+    pr_repo_full_name: str,
+    config_path: Path,
+) -> None:
+    update_config_fields(
+        {
+            "exercise_repo": {
+                "pr_repo_full_name": pr_repo_full_name,
+            }
+        },
+        config_path=config_path/".gitmastery-exercise.json",
+    )
+
 def add_pr_config(
     pr_number: int,
     pr_repo_full_name: str,
