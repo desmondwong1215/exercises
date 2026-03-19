@@ -24,7 +24,6 @@ def verify(exercise: GitAutograderExercise) -> GitAutograderOutput:
     comments = []
     
     pr_numbers = get_pr_numbers_by_author(username, target_repo, False)
-    print(pr_numbers)
     if not pr_numbers:
         raise exercise.wrong_answer([PR_MISSING])
     if len(pr_numbers) > 1:
