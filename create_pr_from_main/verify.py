@@ -6,7 +6,7 @@ from git_autograder import (
     GitAutograderStatus,
 )
 
-from exercise_utils.exercise_config import add_pr_config, add_pr_number
+from exercise_utils.exercise_config import add_pr_config
 from exercise_utils.github_cli import get_github_username, get_pr_numbers_by_author
 
 
@@ -30,7 +30,7 @@ def verify(exercise: GitAutograderExercise) -> GitAutograderOutput:
         comments.append(MUTIPLE_PRS)
     pr_number = pr_numbers[-1]
 
-    add_pr_number(pr_number, Path("./"))
+    add_pr_config(pr_number=pr_number, config_path=Path("./"))
     exercise.fetch_pr()
 
     if exercise.repo.prs.pr.head_branch != "main":
