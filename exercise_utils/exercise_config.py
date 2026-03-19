@@ -3,6 +3,9 @@ from pathlib import Path
 from typing import Any
 
 
+EXERCISE_CONFIG_FILE_NAME = ".gitmastery-exercise.json"
+
+
 def _merge_config_fields(config: dict[str, Any], updates: dict[str, Any]) -> None:
     for key, value in updates.items():
         if isinstance(value, dict):
@@ -39,7 +42,11 @@ def update_config_fields(updates: dict[str, Any], config_path: Path) -> None:
     config_path.write_text(json.dumps(config, indent=2))
 
 
-def add_pr_config(pr_number: int, pr_repo_full_name: str, config_path: str) -> None:
+def add_pr_config(
+    pr_number: int,
+    pr_repo_full_name: str,
+    config_path: Path,
+) -> None:
     update_config_fields(
         {
             "exercise_repo": {
@@ -47,5 +54,5 @@ def add_pr_config(pr_number: int, pr_repo_full_name: str, config_path: str) -> N
                 "pr_repo_full_name": pr_repo_full_name,
             }
         },
-        config_path=Path(config_path)
+        config_path=config_path/".gitmastery-exercise.json",
     )
