@@ -38,7 +38,6 @@ def verify(exercise: GitAutograderExercise) -> GitAutograderOutput:
         raise exercise.wrong_answer(comments)
 
     latest_user_commit = exercise.repo.prs.pr.last_user_commit
-    print("Number of commits in the PR:", len(exercise.repo.prs.pr.commits))
     with latest_user_commit.file("Java.txt") as content:
         if content is None:
             comments.append(JAVA_FILE_MISSING)
