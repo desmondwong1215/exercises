@@ -8,6 +8,9 @@ EXERCISE_CONFIG_FILE_NAME = ".gitmastery-exercise.json"
 
 def _merge_config_fields(config: dict[str, Any], updates: dict[str, Any]) -> None:
     for key, value in updates.items():
+        if not value:
+            continue
+        
         if isinstance(value, dict):
             current_value = config.get(key)
             if not isinstance(current_value, dict):
