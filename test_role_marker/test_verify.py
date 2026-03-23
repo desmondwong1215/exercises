@@ -10,7 +10,6 @@ from git_autograder import (
     GitAutograderStatus,
     GitAutograderWrongAnswerException,
 )
-from git_autograder.helpers.pr_helper.pr_helper import PrHelper
 from git_autograder.pr import GitAutograderPr
 
 from .verify import MISSING_COMMENT, verify
@@ -45,9 +44,8 @@ def exercise(tmp_path: Path) -> GitAutograderExercise:
             )
         )
 
-    with patch.object(
-        PrHelper,
-        "_fetch_pr_data",
+    with patch(
+        "git_autograder.pr.fetch_pull_request_data",
         return_value={
             "title": "",
             "body": "",
@@ -58,8 +56,10 @@ def exercise(tmp_path: Path) -> GitAutograderExercise:
             "isDraft": False,
             "mergedAt": None,
             "mergedBy": None,
-            "latestReviews": [],
-            "comments": [],
+            "createdAt": None,
+            "latestReviews": {"nodes": []},
+            "comments": {"nodes": []},
+            "commits": {"nodes": []},
         },
     ):
         return GitAutograderExercise(exercise_path=tmp_path)
