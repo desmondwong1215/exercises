@@ -50,12 +50,13 @@ def add_pr_config(
     pr_number: int | None = None,
     pr_repo_full_name: str | None = None,
 ) -> None:
+    exercise_repo_updates: dict[str, int | str] = {}
+    if pr_number is not None:
+        exercise_repo_updates["pr_number"] = pr_number
+    if pr_repo_full_name is not None:
+        exercise_repo_updates["pr_repo_full_name"] = pr_repo_full_name
+
     update_config_fields(
-        {
-            "exercise_repo": {
-                "pr_number": pr_number,
-                "pr_repo_full_name": pr_repo_full_name,
-            }
-        },
-        config_path=config_path/".gitmastery-exercise.json",
+        {"exercise_repo": exercise_repo_updates},
+        config_path=config_path / ".gitmastery-exercise.json",
     )
