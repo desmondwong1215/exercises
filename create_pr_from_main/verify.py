@@ -5,6 +5,7 @@ from git_autograder import (
     GitAutograderExercise,
     GitAutograderStatus,
 )
+from git_autograder.helpers import NullPrHelper
 
 from exercise_utils.exercise_config import add_pr_config
 from exercise_utils.github_cli import get_github_username, get_pr_numbers_by_author
@@ -34,6 +35,9 @@ def verify(exercise: GitAutograderExercise) -> GitAutograderOutput:
 
     add_pr_config(pr_number=pr_number, config_path=Path("./"))
     exercise.fetch_pr()
+
+    print(exercise.read_config("exercise_repo"))
+    print(isinstance(exercise.repo.prs, NullPrHelper))
 
     if exercise.repo.prs.pr.head_branch != "main":
         comments.append(WRONG_HEAD_BRANCH)
